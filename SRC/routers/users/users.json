@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Federico",
+        "surname": "Sivieri",
+        "ID": "5bfe0573-2e58-43b3-b2df-57fa44939d5e",
+        "email": "sivieri.federico@gmail.com"
+    },
+    {
+        "name": "Daniele",
+        "surname": "Sivieri",
+        "ID": "5e3cbf0b-ed1e-4e96-a2e6-33c24258c7ae",
+        "email": "daniele.sivieri@gmail.com"
+    },
+    {
+        "name": "Noemi",
+        "surname": "Palmeri",
+        "email": "noemipalmeri@gmail.com",
+        "ID": "3a5e5b0c-f4db-4c49-97ff-616985b5a478"
+    }
+]
