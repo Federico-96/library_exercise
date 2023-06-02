@@ -19,6 +19,6 @@ router.put('/:ID', loansController.editLoanByID);
 router.delete('/:ID', loansController.deleteLoan);
 
 // UPDATE endLoan
-router.put('/endloan', loansController.endLoan);
+router.put('/endloan/:ID', loansController.endLoan);
 
 module.exports = router;

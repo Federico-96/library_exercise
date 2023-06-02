@@ -22,8 +22,8 @@ const createLoan = function (req, res) {
 
     const bookExist = books.find(b => b.ID === req.body.bookID);
     const checkQty = books.find(b => b.qta_disponibile >= req.body.qta);
-
     const bookIndex = books.findIndex(b => b.ID === req.body.bookID);
+
     let updateQtyBook = bookExist.qta_disponibile - req.body.qta;
 
     if (!bookExist) {
@@ -70,7 +70,9 @@ const endLoan = function(req, res) {
     const loanIndex = loans.findIndex(l => l.ID === req.body.ID);
     const bookIndex = books.findIndex(b => b.ID === req.body.bookID);
 
-    bookByID = {...bookByID, qta_disponibile: req.body.qta + bookByID.qta_disponibile.toString};
+    let newQty = +req.body.qta + +bookByID.qta_disponibile;
+
+    bookByID = {...bookByID, qta_disponibile: newQty.toString()};
     loanByID = {...loanByID, ...req.body};
 
     loans[loanIndex] = loanByID;

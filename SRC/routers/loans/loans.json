@@ -1,1 +1,10 @@
-[{"ID":"5901846c-4174-4ba7-84a5-5762934a2369","bookID":"3bc59a68-8e42-48b9-bbe9-f0eafbc2578e","usersID":"5bfe0573-2e58-43b3-b2df-57fa44939d5e","qta":"1","start_prestito":"28/05/2023","fine_prestito":""}]
+[
+    {
+        "ID": "5901846c-4174-4ba7-84a5-5762934a2369",
+        "bookID": "3bc59a68-8e42-48b9-bbe9-f0eafbc2578e",
+        "usersID": "5bfe0573-2e58-43b3-b2df-57fa44939d5e",
+        "qta": "2",
+        "start_prestito": "28/05/2023",
+        "fine_prestito": "01/09/2023"
+    }
+]
