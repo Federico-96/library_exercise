@@ -70,7 +70,7 @@ const endLoan = function(req, res) {
     const loanIndex = loans.findIndex(l => l.ID === req.body.ID);
     const bookIndex = books.findIndex(b => b.ID === req.body.bookID);
 
-    let newQty = +req.body.qta + +bookByID.qta_disponibile;
+    let newQty = req.body.qta + bookByID.qta_disponibile;
 
     bookByID = {...bookByID, qta_disponibile: newQty.toString()};
     loanByID = {...loanByID, ...req.body};

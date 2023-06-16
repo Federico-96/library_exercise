@@ -33,14 +33,8 @@ server.listen(PORT, () => {
 
 
 /**
- * all'inserimento di uno user o autore controlla se esiste già con la stessa mail
- * 
- * all'inserimento di un nuovo libbro dovrai controllare se l'autore esiste, altrimenti rispondi 404 author not found
- * 
- * parte prestito
- * controllare se la qta del prestito è disponibile, se non disponibile rispondere errore 400 <inventati un messagio in inglese>
- * 
- * il fine prestito sarà un endpoint dedicata, /endPrestito, che setterà :
- *         1) endPrestito con la data del fine prestito 
- *         2) ripristinerà qta_disponibile
+ *  calcolare l'end Date da backend e salvarla in formato utc. Utilizza o la classe Date di JS o la libreria moment.
  */
+
+
+

@@ -1,18 +1,30 @@
 const { json } = require('express');
 const fs = require('fs');
+const fsProm = require('fs/promises');
 const{ v4: uuidv4 } = require('uuid');
 
 // GET ALL books
-const getAllbooks = function(req, res) {
-    const books = JSON.parse(fs.readFileSync(req.dbs.books, 'utf-8'));
-    res.send(books);
+const getAllbooks = async function(req, res) {
+    try {
+        const books = await fsProm.readFile(req.dbs.books, 'utf-8')
+        res.send(JSON.parse(books))
+    } catch (err) {
+        res.status(404).send(err.message);
+    }
+    // const books = JSON.parse(fs.readFileSync(req.dbs.books, 'utf-8'));
+    // res.send(books);
+    // res.status(404).send(new Error('resource not found'))
 }
 
 // GET book byID
-const getBookByID = function(req, res) {
-    const books =  JSON.parse(fs.readFileSync(req.dbs.books, 'utf-8'));
-    const bookByID = books.find(b => b.ID === req.params.ID);
-    res.send(bookByID);
+const getBookByID = async function(req, res) {
+    try {
+        const books = JSON.parse(await fsProm.readFile(req.dbs.books, 'utf-8'));
+        const bookByID = books.find(b => b.ID === req.params.ID);
+        res.send(bookByID);
+    } catch (err) {
+        res.status(404).send(err.message)
+    }
 }
 
 // CREATE book

@@ -1,15 +1,15 @@
 [
     {
         "title": "Divina Commedia",
-        "qta_tot": "2",
-        "qta_disponibile": "2",
+        "qta_tot": 2,
+        "qta_disponibile": 2,
         "author": "9cf62414-2df1-49c8-a89e-cb46e85ecf9d",
         "ID": "f37a0f4c-e489-4175-bb72-a1cc8bee1c01"
     },
     {
         "title": "Harry Potter 1",
-        "qta_tot": "5",
-        "qta_disponibile": "5",
+        "qta_tot": 5,
+        "qta_disponibile": 5,
         "author": "fb17fefb-f45b-49ca-b32b-c4e1f003a380",
         "ID": "3bc59a68-8e42-48b9-bbe9-f0eafbc2578e"
     }
