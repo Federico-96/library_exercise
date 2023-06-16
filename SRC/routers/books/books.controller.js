@@ -11,6 +11,9 @@ const getAllbooks = async function(req, res) {
     } catch (err) {
         res.status(404).send(err.message);
     }
+
+console.log();
+
     // const books = JSON.parse(fs.readFileSync(req.dbs.books, 'utf-8'));
     // res.send(books);
     // res.status(404).send(new Error('resource not found'))
