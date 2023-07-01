@@ -48,7 +48,7 @@ const createLoan = async function (req, res) {
             throw new HttpError (`the user with ID: ${req.body.userID} not exist`, 404);
         } else if (checkQty) {
             let updateQtyBook = bookExist.qta_disponibile - req.body.qta;
-            newLoan = { ID: uuidv4(), ...req.body };
+            newLoan = { ID: uuidv4(), ...req.body, start_prestito: new Date().toISOString() };
             loans.push(newLoan);
             books[bookIndex] = {...bookExist, qta_disponibile: updateQtyBook.toString()};
             await fsProm.writeFile(req.dbs.books, JSON.stringify(books));
@@ -118,7 +118,7 @@ const endLoan = async function(req, res) {
             let newQty = req.body.qta + bookByID.qta_disponibile;
         
             bookByID = {...bookByID, qta_disponibile: newQty};
-            loanByID = {...loanByID, ...req.body};
+            loanByID = {...loanByID, ...req.body, endLoan: new Date().toISOString()};
         
             loans[loanIndex] = loanByID;
             books[bookIndex] = bookByID;
