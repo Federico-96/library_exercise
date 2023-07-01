@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const booksController = require('./books.controller.js');
 
 // GET ALL books
