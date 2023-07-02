@@ -2,6 +2,7 @@
   "name": "esercizio_biblioteca",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "./SRC/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
