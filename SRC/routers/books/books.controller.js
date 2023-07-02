@@ -1,9 +1,10 @@
-const { throws } = require('assert');
-const { json } = require('express');
-const fs = require('fs');
-const fsProm = require('fs/promises');
-const HttpError = require('../../utils/httpError.js')
-const{ v4: uuidv4 } = require('uuid');
+// const fsProm = require('fs/promises');
+// const HttpError = require('../../utils/httpError.js')
+// const{ v4: uuidv4 } = require('uuid');
+
+import {fsProm} from "fs/promises";
+import { HttpError } from "../../utils/httpError.js";
+import { uuid } from 'uuidv4';
 
 // GET ALL books
 const getAllbooks = async function(req, res) {
@@ -36,7 +37,7 @@ const createBooks = async function (req, res) {
         const books = JSON.parse(await fsProm.readFile(req.dbs.books, 'utf-8'));
         
         if (!!authors.find(a => a.ID === req.body.author)) {
-            const newBook = { ...req.body, ID: uuidv4()};
+            const newBook = { ...req.body, ID: uuid()};
             books.push(newBook);
             fsProm.writeFile(req.dbs.books, JSON.stringify(books));
             res.send(newBook);
@@ -78,10 +79,10 @@ const deleteBookByID = async function(req, res) {
     }
 }
 
-module.exports = {
+export {
     getAllbooks, 
     getBookByID, 
     createBooks,
     editBookByID, 
     deleteBookByID
-}
+};
