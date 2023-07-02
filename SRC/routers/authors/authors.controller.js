@@ -1,8 +1,12 @@
-const { json } = require('express');
-const fs = require('fs');
-const fsProm = require('fs/promises');
-const { v4: uuidv4 } = require('uuid');
-const HttpError = require('../../utils/httpError.js')
+// const { json } = require('express');
+// const fs = require('fs');
+// const fsProm = require('fs/promises');
+// const { v4: uuidv4 } = require('uuid');
+// const HttpError = require('../../utils/httpError.js')
+
+import {fsProm} from "fs/promises";
+import { HttpError } from "../../utils/httpError";
+import { uuid } from 'uuidv4';
 
 // CREATE author
 const createAuthors = async function(req, res){
@@ -12,7 +16,7 @@ const createAuthors = async function(req, res){
         // if(!!authors.find(a => a.email === req.body.email))  res.status(400).send('email already eist');
         if(!!authors.find(a => a.email === req.body.email))  throw new HttpError('email already eist', 500);
         
-        ID = uuidv4();
+        ID = uuid();
         const newAuthor = {...req.body, ID};
         authors.push(newAuthor);
         await fsProm.writeFile(req.dbs.authors, JSON.stringify(authors));
@@ -73,10 +77,10 @@ const deleteAuthorByID = async function(req, res) {
     }
 }
 
-module.exports = {
+export {
     getAllAuthors,
     getAuthorByID,
     createAuthors,
     editAuthorByID,
     deleteAuthorByID
-}
+};
