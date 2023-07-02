@@ -1,8 +1,11 @@
-const { json } = require('express');
-const fs = require('fs');
-const fsProm = require('fs/promises');
-const HttpError = require('../../utils/httpError.js')
-const { v4: uuidv4 } = require('uuid');
+// const { json } = require('express');
+// const fsProm = require('fs/promises');
+// const HttpError = require('../../utils/httpError.js')
+// const { v4: uuidv4 } = require('uuid');
+
+import {fsProm} from "fs/promises";
+import { HttpError } from "../../utils/httpError";
+import { uuid } from 'uuidv4';
 
 // GET ALL loans
 const getAllLoans = async function(req, res) {
@@ -48,7 +51,7 @@ const createLoan = async function (req, res) {
             throw new HttpError (`the user with ID: ${req.body.userID} not exist`, 404);
         } else if (checkQty) {
             let updateQtyBook = bookExist.qta_disponibile - req.body.qta;
-            newLoan = { ID: uuidv4(), ...req.body, start_prestito: new Date().toISOString() };
+            newLoan = { ID: uuid(), ...req.body, start_prestito: new Date().toISOString() };
             loans.push(newLoan);
             books[bookIndex] = {...bookExist, qta_disponibile: updateQtyBook.toString()};
             await fsProm.writeFile(req.dbs.books, JSON.stringify(books));
@@ -133,11 +136,11 @@ const endLoan = async function(req, res) {
     }
 }   
 
-module.exports = {
+export {
     getAllLoans,
     getLoanByID,
     createLoan,
     editLoanByID,
     deleteLoan,
     endLoan
-}
+};
