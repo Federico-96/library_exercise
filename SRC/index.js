@@ -4,17 +4,17 @@
 // const booksRouters = require('./routers/books/books.router.js')
 // const loansRouters = require('./routers/loans/loans.router.js')
 
-import {express} from 'express';
-import {usersRouters} from './routers/users/users.router.js';
-import {authorsRouters} from './routers/authors/authors.router.js';
-import {booksRouters} from './routers/books/books.router.js';
-import {loansRouters} from './routers/loans/loans.router.js';
+import express from "express";
+import {router as usersRouters} from './routers/users/users.router.js';
+import {router as authorsRouters} from './routers/authors/authors.router.js';
+import {router as booksRouters} from './routers/books/books.router.js';
+import {router as loansRouters} from './routers/loans/loans.router.js';
 import {utilsMiddleware} from './middleware/utils.middleware.js';
 
 const server = express();
 
 server.use(express.json());
-server.use(utilsMiddleware());
+server.use(utilsMiddleware);
 
 
 server.use('/users', usersRouters);

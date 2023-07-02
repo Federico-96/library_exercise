@@ -2,8 +2,10 @@
 // const router = express.Router();
 // const authorsController = require('./authors.controller.js');
 
-import { router } from "express";
+import express from "express";
 import { getAllAuthors, getAuthorByID, createAuthors, editAuthorByID, deleteAuthorByID } from "./authors.controller.js"
+
+const router = express.Router();
 
 // CREATE authors
 router.post('/', createAuthors);
@@ -21,4 +23,4 @@ router.put('/:ID', editAuthorByID);
 // DELETE authors by ID
 router.delete('/:ID', deleteAuthorByID);
 
-module.exports = router;
+export {router};

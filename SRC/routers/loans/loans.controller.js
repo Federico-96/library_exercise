@@ -3,14 +3,14 @@
 // const HttpError = require('../../utils/httpError.js')
 // const { v4: uuidv4 } = require('uuid');
 
-import {fsProm} from "fs/promises";
-import { HttpError } from "../../utils/httpError";
-import { uuid } from 'uuidv4';
+import fs from 'node:fs/promises'
+import { HttpError } from "../../utils/httpError.js";
+import {v4 as uuid} from "uuid";
 
 // GET ALL loans
 const getAllLoans = async function(req, res) {
     try {
-        const loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
+        const loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
         res.send(loans);
     } catch (err) {
         res.status(404).send(err.message);
@@ -20,8 +20,8 @@ const getAllLoans = async function(req, res) {
 // GET loan byID
 const getLoanByID = async function(req, res) {
     try {
-        const loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
-        loanByID = loans.find(l => l.ID === req.params.ID);
+        const loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
+        const loanByID = loans.find(l => l.ID === req.params.ID);
         if (!loanByID) {
             throw new HttpError ('loan not found', 404);
         } else {
@@ -35,9 +35,9 @@ const getLoanByID = async function(req, res) {
 // CREATE loan
 const createLoan = async function (req, res) {
     try {
-        const loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
-        const books = JSON.parse(await fsProm.readFile(req.dbs.books, 'utf-8'));
-        const users = JSON.parse(await fsProm.readFile(req.dbs.users, 'utf-8'));
+        const loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
+        const books = JSON.parse(await fs.readFile(req.dbs.books, 'utf-8'));
+        const users = JSON.parse(await fs.readFile(req.dbs.users, 'utf-8'));
     
         const userExist = users.find(u => u.ID === req.body.userID)
         const bookExist = books.find(b => b.ID === req.body.bookID);
@@ -51,11 +51,11 @@ const createLoan = async function (req, res) {
             throw new HttpError (`the user with ID: ${req.body.userID} not exist`, 404);
         } else if (checkQty) {
             let updateQtyBook = bookExist.qta_disponibile - req.body.qta;
-            newLoan = { ID: uuid(), ...req.body, start_prestito: new Date().toISOString() };
+            const newLoan = { ID: uuid(), ...req.body, start_prestito: new Date().toISOString() };
             loans.push(newLoan);
-            books[bookIndex] = {...bookExist, qta_disponibile: updateQtyBook.toString()};
-            await fsProm.writeFile(req.dbs.books, JSON.stringify(books));
-            await fsProm.writeFile(req.dbs.loans, JSON.stringify(loans));
+            books[bookIndex] = {...bookExist, qta_disponibile: updateQtyBook};
+            await fs.writeFile(req.dbs.books, JSON.stringify(books));
+            await fs.writeFile(req.dbs.loans, JSON.stringify(loans));
             res.send(newLoan);
         } else {
             throw new HttpError ('the quantity request is not available', 400);
@@ -69,7 +69,7 @@ const createLoan = async function (req, res) {
 // UPDATE loan by ID
 const editLoanByID = async function(req, res) {
     try {
-        const loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
+        const loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
         const loanByID = loans.find(l => l.ID === req.params.ID);
         if (!loanByID) {
             throw new HttpError ('loan not found', 404);
@@ -77,7 +77,7 @@ const editLoanByID = async function(req, res) {
             const loanIndex = loans.findIndex(l => l.ID === req.params.ID);
             let newLoan = {...loanByID, ...req.body};
             loans[loanIndex] = newLoan;
-            await fsProm.writeFile(req.dbs.loans, JSON.stringify(loans));
+            await fs.writeFile(req.dbs.loans, JSON.stringify(loans));
             res.send(newLoan);
         }
     } catch (err) {
@@ -88,9 +88,9 @@ const editLoanByID = async function(req, res) {
 // DELETE loan
 const deleteLoan = async function(req, res) {
     try {
-        let loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
+        let loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
         loans = loans.filter(l => l.ID !== req.params.ID);
-        await fsProm.writeFile(req.dbs.loans, JSON.stringify(loans));
+        await fs.writeFile(req.dbs.loans, JSON.stringify(loans));
         res.send(`the loan with ID:${req.params.ID} was deleted`);
     } catch (err) {
         res.status(404).send(err.message);
@@ -100,13 +100,13 @@ const deleteLoan = async function(req, res) {
 // UPDATE endLoan
 const endLoan = async function(req, res) {
     try {
-        const loans = JSON.parse(await fsProm.readFile(req.dbs.loans, 'utf-8'));
-        const books = JSON.parse(await fsProm.readFile(req.dbs.books, 'utf-8'));
-        const users = JSON.parse(await fsProm.readFile(req.dbs.users, 'utf-8'));
+        const loans = JSON.parse(await fs.readFile(req.dbs.loans, 'utf-8'));
+        const books = JSON.parse(await fs.readFile(req.dbs.books, 'utf-8'));
+        const users = JSON.parse(await fs.readFile(req.dbs.users, 'utf-8'));
     
         let loanByID = loans.find(l => l.ID === req.params.ID);
         let bookByID = books.find(b => b.ID === req.body.bookID);
-        let userByID = users.find(u => u.ID === req.body.usersID);
+        let userByID = users.find(u => u.ID === req.body.userID);
 
         if (!loanByID) {
             throw new HttpError (`the loan with ID: ${req.params.ID} not exist`, 404);
@@ -126,8 +126,8 @@ const endLoan = async function(req, res) {
             loans[loanIndex] = loanByID;
             books[bookIndex] = bookByID;
         
-            await fsProm.writeFile(req.dbs.loans, JSON.stringify(loans));
-            await fsProm.writeFile(req.dbs.books, JSON.stringify(books));
+            await fs.writeFile(req.dbs.loans, JSON.stringify(loans));
+            await fs.writeFile(req.dbs.books, JSON.stringify(books));
             res.send(loanByID);
         }
         

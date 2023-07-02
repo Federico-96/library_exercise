@@ -2,8 +2,10 @@
 // const router = express.Router();
 // const usersController = require('./users.controller.js')
 
-import { router } from "express";
-import { getAllUsers, getUsersByID, createUsers, editUserbyID, deleteUserByID } from "./users.controller";
+import express from "express";
+import { getAllUsers, getUsersByID, createUsers, editUserbyID, deleteUserByID } from "./users.controller.js";
+
+const router = express.Router();
 
 // GET ALL users
 router.get('/', getAllUsers)

@@ -1,12 +1,12 @@
-import {fsProm} from 'fs/promises';
+import fs from 'node:fs/promises'
 import {HttpError} from '../../utils/httpError.js';
-import { uuid } from 'uuidv4';
+import {v4 as uuid} from "uuid";
 
 // GET ALL users
 const getAllUsers = async function (req, res) {
     try {
         console.log(req.utils.capitalize())
-        const users = JSON.parse(await fsProm.readFile(req.dbs.users, 'utf-8'));
+        const users = JSON.parse(await fs.readFile(req.dbs.users, 'utf-8'));
         res.json(users);
     } catch (err) {
         res.status(404).send(err.message);
@@ -16,7 +16,7 @@ const getAllUsers = async function (req, res) {
 // GET User byID
 const getUsersByID = async function (req, res) {
     try {
-        const users = JSON.parse(await fsProm.readFile(req.dbs.users, 'utf-8'));
+        const users = JSON.parse(await fs.readFile(req.dbs.users, 'utf-8'));
         res.json(users.find((u) => {
             return u.ID === req.params.ID;
         }));
@@ -28,14 +28,14 @@ const getUsersByID = async function (req, res) {
 // CREATE user
 const createUsers = async function (req, res) {
     try {
-        const users = JSON.parse(await fsProm.readFile('./SRC/routers/users/users.json', 'utf-8'));
+        const users = JSON.parse(await fs.readFile('./SRC/routers/users/users.json', 'utf-8'));
     
         if (!!users.find(u => u.email === req.body.email)) {
             throw new HttpError ('email already exist', 400)
         } else {
-            const newUser = { ...req.body, ID: uuid() };
+            const newUser = { ...req.body, ID: uuid()};
             users.push(newUser);
-            await fsProm.writeFile('./SRC/routers/users/users.json', JSON.stringify(users), 'utf-8');
+            await fs.writeFile('./SRC/routers/users/users.json', JSON.stringify(users), 'utf-8');
             res.send(newUser);
         }
         
@@ -53,7 +53,7 @@ const editUserbyID = async function (req, res) {
             throw new HttpError ('user not exist', 404)
         } else {
             userByID = { ...userByID, ...req.body };
-            indexUsers = users.findIndex((u => u.ID == userByID.ID));
+            const indexUsers = users.findIndex((u => u.ID == userByID.ID));
             users[indexUsers] = userByID;
             await fs.writeFile('./SRC/routers/users/users.json', JSON.stringify(users), 'utf-8');
             res.json(users[indexUsers]);
@@ -66,9 +66,9 @@ const editUserbyID = async function (req, res) {
 // DELETE user
 const deleteUserByID = async function (req, res) {
     try {
-        let users = JSON.parse(await fsProm.readFile('./SRC/routers/users/users.json', 'utf-8'));
+        let users = JSON.parse(await fs.readFile('./SRC/routers/users/users.json', 'utf-8'));
         users = users.filter(u => u.ID !== req.params.ID);
-        await fsProm.writeFile('./SRC/routers/users/users.json', JSON.stringify(users), 'utf-8');
+        await fs.writeFile('./SRC/routers/users/users.json', JSON.stringify(users), 'utf-8');
         res.send(`the User with ID:${req.params.ID} was deleted`);
     } catch (err) {
         res.status(404).send(err.message)

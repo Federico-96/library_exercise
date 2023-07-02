@@ -12,6 +12,7 @@
         "userID": "5bfe0573-2e58-43b3-b2df-57fa44939d5e",
         "bookID": "f37a0f4c-e489-4175-bb72-a1cc8bee1c01",
         "qta": 1,
-        "start_prestito": "2023-07-01T14:27:22.798Z"
+        "start_prestito": "2023-07-01T14:27:22.798Z",
+        "endLoan": "2023-07-02T09:35:46.880Z"
     }
 ]
